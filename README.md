@@ -11,6 +11,7 @@ if you run this container with
 ```
 docker run -d -v $(dirname $SSH_AUTH_SOCK):/s$(dirname $SSH_AUTH_SOCK) --name=dsshagent aidanhs/sshagent-socket
 ```
+(it may ask you to add `$SSH_AUTH_SOCK` at the end of the line)
 
 you can add the following lines to a Dockerfile for an image with `socat`
 installed
