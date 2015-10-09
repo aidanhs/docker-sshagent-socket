@@ -6,7 +6,7 @@ container it can be tiresome to manually manage SSH keys (or impossible if
 they're password protected).
 
 As of 1.8, names of containers are automatically inserted into /etc/hosts, so
-if you run this container with
+if you run this container (assuming you have an SSH agent running) with
 
 ```
 docker run -d -v $(dirname $SSH_AUTH_SOCK):/s$(dirname $SSH_AUTH_SOCK) --name=dsshagent aidanhs/sshagent-socket
