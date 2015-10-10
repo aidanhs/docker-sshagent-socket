@@ -24,7 +24,7 @@ RUN dir=$(dirname $SSH_AUTH_SOCK) && mkdir -p $dir && chmod 777 $dir
 RUN mkdir -p ~/.ssh && printf "Host *\n\
   StrictHostKeyChecking no\n\
   ProxyCommand setsid socat UNIX-LISTEN:$SSH_AUTH_SOCK,unlink-early,mode=777 TCP:dsshagent:5522 >/dev/null 2>&1 & \
-    sleep 0.5 && socat - TCP:%%h:%%p\n\
+    wait && socat - TCP:%%h:%%p\n\
 " > ~/.ssh/config
 
 RUN scp user@mysecretserver:~/data /data
@@ -41,9 +41,9 @@ as a Unix socket (as required by SSH).
 
 Unfortunately there are some issues with the current approach:
 
- - you have to sleep a small amount of time to let `socat` start before you
-   let SSH begin - assuming you're being good and not doing too much SSH, this
-   shouldn't really impact your build times
+ - you have to `wait` to let `socat` start before you let SSH begin - assuming
+   you're being good and not doing too much SSH, this shouldn't really impact
+   your build times
  - executing a number of SSH connections in parallel may break as the `socat`
    instances step on the same socket - try adding `,fork` to the end of the
    UNIX-LISTEN argument to keep `socat` listening for *all* connections,
