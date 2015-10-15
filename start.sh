@@ -16,5 +16,10 @@ else
 	sock=$(find /s -type s)
 fi
 
+if [ ! -S "$sock" ]; then
+	echo "$sock is not a socket"
+	exit 1
+fi
+
 # `-t` is needed because of https://github.com/docker/docker/issues/16602
 socat -t 100000000 TCP-LISTEN:5522,reuseaddr,fork UNIX:$sock
