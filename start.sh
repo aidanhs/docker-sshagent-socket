@@ -22,4 +22,4 @@ if [ ! -S "$sock" ]; then
 fi
 
 # `-t` is needed because of https://github.com/docker/docker/issues/16602
-socat -t 100000000 TCP-LISTEN:5522,reuseaddr,fork UNIX:$sock
+socat -t 100000000 TCP-LISTEN:5522,reuseaddr,fork "UNIX:$sock"
